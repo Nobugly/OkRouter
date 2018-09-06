@@ -8,17 +8,17 @@ import io.reactivex.Maybe;
 
 public class RouterImpl implements Router {
     @Override
-    public Maybe<Result> route(FragmentActivity activity) {
+    public Maybe<Result> route(FragmentActivity activity, TransferParameters parameters) {
         return null;
     }
 
     @Override
-    public Maybe<Result> route(Fragment fragment) {
+    public Maybe<Result> route(Fragment fragment, TransferParameters parameters) {
         return null;
     }
 
     @Override
-    public Maybe<Result> route(Context context) {
+    public Maybe<Result> route(Context context, TransferParameters parameters) {
         return null;
     }
 }

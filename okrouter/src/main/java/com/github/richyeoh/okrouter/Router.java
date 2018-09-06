@@ -7,9 +7,9 @@ import android.support.v4.app.FragmentActivity;
 import io.reactivex.Maybe;
 
 public interface Router {
-    Maybe<Result> route(FragmentActivity activity);
+    Maybe<Result> route(FragmentActivity activity, TransferParameters parameters);
 
-    Maybe<Result> route(Fragment fragment);
+    Maybe<Result> route(Fragment fragment, TransferParameters parameters);
 
-    Maybe<Result> route(Context context);
+    Maybe<Result> route(Context context, TransferParameters parameters);
 }
