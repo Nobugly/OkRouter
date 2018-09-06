@@ -15,7 +15,7 @@ public class TransferParameters {
 
     private Class mTargetClass;
 
-    public static Bundle getDataQueue() {
+    public Bundle getDataQueue() {
         return sDataQueue;
     }
 
