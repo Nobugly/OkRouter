@@ -1,6 +1,7 @@
 package com.github.richyeoh.okrouter;
 
 import android.content.Context;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.app.Fragment;
@@ -133,13 +134,27 @@ public final class OkRouter {
     }
 
     public OkRouter with(String key, Parcelable value) {
-
         mParameters.getDataQueue().putParcelable(key, value);
         return this;
     }
 
     public OkRouter with(String key, Bundle value) {
         mParameters.getDataQueue().putBundle(key, value);
+        return this;
+    }
+
+    public OkRouter addFlags(int flags) {
+        mParameters.setFlags(flags);
+        return this;
+    }
+
+    public OkRouter setData(Uri data) {
+        mParameters.setData(data);
+        return this;
+    }
+
+    public OkRouter setType(String type) {
+        mParameters.setType(type);
         return this;
     }
 }
