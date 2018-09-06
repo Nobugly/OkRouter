@@ -1,0 +1,1 @@
+include ':app', ':okrouter', ':okrouter-annotations', ':okrouter-compiler'
