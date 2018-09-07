@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.TextUtils;
 
-public class ProxyFragment extends Fragment {
+public final class ProxyFragment extends Fragment {
     private static final String TAG_PROXY_FRAGMENT = "proxy_fragment";
 
     public static void route(FragmentActivity activity, TransferParameters parameters) {
