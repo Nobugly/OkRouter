@@ -143,7 +143,7 @@ public final class OkRouter {
         return this;
     }
 
-    public OkRouter addFlags(int flags) {
+    public OkRouter setFlags(int flags) {
         mParameters.setFlags(flags);
         return this;
     }
