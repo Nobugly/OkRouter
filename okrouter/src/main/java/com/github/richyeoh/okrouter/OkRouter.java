@@ -12,14 +12,16 @@ import java.io.Serializable;
 import io.reactivex.Maybe;
 
 public final class OkRouter {
-    private RouterImpl mRouter = new RouterImpl();
-    private TransferParameters mParameters = new TransferParameters();
+    private RouterImpl mRouter;
+    private TransferParameters mParameters;
 
     private FragmentActivity mActivity;
     private Fragment mFragment;
     private Context mContext;
 
     private OkRouter() {
+        mRouter = new RouterImpl();
+        mParameters = new TransferParameters();
     }
 
     public static OkRouter of(FragmentActivity activity) {
