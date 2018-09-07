@@ -9,6 +9,8 @@ import android.support.v4.app.FragmentActivity;
 
 import java.io.Serializable;
 
+import io.reactivex.Maybe;
+
 public final class OkRouter {
     private RouterImpl mRouter = new RouterImpl();
     private TransferParameters mParameters = new TransferParameters();
@@ -156,5 +158,31 @@ public final class OkRouter {
     public OkRouter setType(String type) {
         mParameters.setType(type);
         return this;
+    }
+
+    public Maybe<Result> routeByUrl(String url) {
+        mParameters.setUrl(url);
+        return dispatch();
+    }
+
+    public Maybe<Result> routeByTargetClass(Class target) {
+        mParameters.setTargetClass(target);
+        return dispatch();
+    }
+
+    private Maybe<Result> dispatch() {
+        if (mActivity != null) {
+            return mRouter.route(mActivity, mParameters);
+        }
+
+        if (mFragment != null) {
+            return mRouter.route(mFragment, mParameters);
+        }
+
+        if (mContext != null) {
+            return mRouter.route(mContext, mParameters);
+        }
+
+        throw new IllegalStateException("OkRouter has not been initialized.");
     }
 }
