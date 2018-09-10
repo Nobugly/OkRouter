@@ -167,7 +167,7 @@ public final class OkRouter {
         return dispatch();
     }
 
-    public Maybe<Result> routeByTargetClass(Class target) {
+    public Maybe<Result> routeByTargetClass(Class<?> target) {
         mParameters.setTargetClass(target);
         return dispatch();
     }

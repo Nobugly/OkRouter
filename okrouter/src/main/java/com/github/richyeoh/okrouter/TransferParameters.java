@@ -3,8 +3,16 @@ package com.github.richyeoh.okrouter;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class TransferParameters {
+import java.io.Serializable;
+
+public class TransferParameters implements Serializable {
     private static final Bundle sDataQueue = new Bundle();
+
+    public int magicNumber = 0;
+
+    public TransferParameters() {
+        magicNumber++;
+    }
 
     private int mFlags;
 
