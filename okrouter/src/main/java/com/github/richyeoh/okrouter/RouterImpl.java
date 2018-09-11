@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import java.util.List;
+
 import io.reactivex.Maybe;
 import io.reactivex.MaybeSource;
 import io.reactivex.annotations.NonNull;
@@ -26,8 +28,8 @@ public class RouterImpl implements Router {
             }
         }).flatMap(new Function<ResultPublisher, MaybeSource<Result>>() {
             @Override
-            public MaybeSource<Result> apply(ResultPublisher resultPublisher) {
-                return resultPublisher.get().lastElement();
+            public MaybeSource<Result> apply(ResultPublisher publisher) {
+                return publisher.get().lastElement();
             }
         }).doFinally(new Action() {
             @Override
@@ -35,6 +37,41 @@ public class RouterImpl implements Router {
                 PublishHolder.remove(parameters.magicNumber);
             }
         });
+    }
+
+    @Override
+    public Maybe<Result> route(final FragmentActivity activity, final List<Firewall> firewalls, final TransferParameters parameters) {
+        return Maybe.just(activity)
+                .doOnSuccess(new Consumer<FragmentActivity>() {
+                    @Override
+                    public void accept(FragmentActivity activity) {
+                        for (Firewall firewall : firewalls) {
+                            if (!firewall.allow()) {
+                                throw firewall.thrown();
+                            }
+                        }
+                    }
+                }).map(new Function<FragmentActivity, ResultPublisher>() {
+                    @Override
+                    public ResultPublisher apply(FragmentActivity activity) {
+                        return createPublisher(parameters);
+                    }
+                }).doOnSuccess(new Consumer<ResultPublisher>() {
+                    @Override
+                    public void accept(ResultPublisher resultPublisher) {
+                        ProxyFragment.route(activity, parameters);
+                    }
+                }).flatMap(new Function<ResultPublisher, MaybeSource<Result>>() {
+                    @Override
+                    public MaybeSource<Result> apply(ResultPublisher publisher) {
+                        return publisher.get().lastElement();
+                    }
+                }).doFinally(new Action() {
+                    @Override
+                    public void run() {
+                        PublishHolder.remove(parameters.magicNumber);
+                    }
+                });
     }
 
     private ResultPublisher createPublisher(TransferParameters parameters) {

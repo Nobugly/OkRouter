@@ -8,12 +8,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import io.reactivex.Maybe;
 
 public final class OkRouter {
     private RouterImpl mRouter;
     private TransferParameters mParameters;
+
+    private List<Firewall> mFirewalls;
 
     private FragmentActivity mActivity;
     private Fragment mFragment;
@@ -22,6 +26,7 @@ public final class OkRouter {
     private OkRouter() {
         mRouter = new RouterImpl();
         mParameters = new TransferParameters();
+        mFirewalls = new ArrayList<>();
     }
 
     public static OkRouter of(FragmentActivity activity) {
@@ -162,6 +167,11 @@ public final class OkRouter {
         return this;
     }
 
+    public OkRouter setFirewall(Firewall firewall) {
+        mFirewalls.add(firewall);
+        return this;
+    }
+
     public Maybe<Result> routeByUrl(String url) {
         mParameters.setUrl(url);
         return dispatch();
@@ -173,6 +183,10 @@ public final class OkRouter {
     }
 
     private Maybe<Result> dispatch() {
+        if (mActivity != null && !mFirewalls.isEmpty()) {
+            return mRouter.route(mActivity, mFirewalls, mParameters);
+        }
+
         if (mActivity != null) {
             return mRouter.route(mActivity, mParameters);
         }

@@ -8,9 +8,9 @@ import java.io.Serializable;
 public class TransferParameters implements Serializable {
     private static final Bundle sDataQueue = new Bundle();
 
-    public int magicNumber = 0;
+    public int magicNumber;
 
-    public TransferParameters() {
+    TransferParameters() {
         magicNumber++;
     }
 
